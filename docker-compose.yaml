@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  123str_autodesk_licence_controller_api:
+    build: ./
+    container_name: 123str_autodesk_licence_controller_api
+    ports:
+      - "8001:8001"
+    depends_on:
+      - 123str_autodesk_licence_controller_mongodb
+    networks:
+      - 123str_autodesk_licence_controller
+
+  123str_autodesk_licence_controller_mongodb:
+    image: mongo:4.4.18
+    container_name: 123str_autodesk_licence_controller_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27018:27017"
+    networks:
+      - 123str_autodesk_licence_controller
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  123str_autodesk_licence_controller:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
